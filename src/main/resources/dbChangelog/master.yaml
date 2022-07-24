@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: x
+      changes:
+        - sqlFile:
+            path: \dbChangelog\change_sets\add_phone_number_and_email.sql
