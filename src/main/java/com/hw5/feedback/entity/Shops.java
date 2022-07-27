@@ -1,8 +1,10 @@
 package com.hw5.feedback.entity;
 
+import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.Table;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-
 
 @Entity
 @Table(name = "shops")
@@ -45,30 +47,6 @@ public class Shops {
 
     public void setEstablishment(String establishment) {
         this.establishment = establishment;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
     }
 
     public LocalDate getCreation_date() {
