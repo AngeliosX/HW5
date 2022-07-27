@@ -1,3 +1,3 @@
-alter table IF EXISTS shops
-    add telephone_number varchar(100),
-    add email varchar(100);
+alter table shops
+    add if not exists telephone_number varchar(100),
+    add if not exists email varchar(100);

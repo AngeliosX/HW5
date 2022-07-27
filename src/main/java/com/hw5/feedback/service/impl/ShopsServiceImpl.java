@@ -3,6 +3,8 @@ package com.hw5.feedback.service.impl;
 import com.hw5.feedback.config.DataConfig;
 import com.hw5.feedback.dao.ShopsRepository;
 import com.hw5.feedback.entity.Shops;
+import com.hw5.feedback.exceptions.FoundationDateIsExpiredException;
+import com.hw5.feedback.exceptions.RestaurantNotFoundException;
 import com.hw5.feedback.service.ShopsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +15,19 @@ import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static com.hw5.feedback.config.DataConfig.url;
 
 @Service
-public class ShopServiceImpl implements ShopsService {
+public class ShopsServiceImpl implements ShopsService {
 
-    private static final Logger log = LoggerFactory.getLogger(ShopServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ShopsServiceImpl.class);
 
     private static Connection connection;
     private final DataConfig dataConfig;
 
-    public ShopServiceImpl(DataConfig dataConfig) {
+    public ShopsServiceImpl(DataConfig dataConfig) {
         this.dataConfig = dataConfig;
     }
 
@@ -53,5 +56,23 @@ public class ShopServiceImpl implements ShopsService {
     @Override
     public Shops getRatingFromShops(String rating) {
         return shopsRepository.getRatingFromShops(rating);
+    }
+
+    @Override
+    public long createShopByNameAndDate(String establishment, LocalDate creation_date) throws FoundationDateIsExpiredException {
+        if(creation_date == null || LocalDate.now().isBefore(creation_date)) {
+            throw new FoundationDateIsExpiredException(establishment, creation_date);
+        }
+        Shops shops = new Shops();
+        shops.setEstablishment(establishment);
+        shops.setCreation_date(creation_date);
+        Shops save = shopsRepository.save(shops);
+        return save.getId();
+    }
+
+    @Override
+    public LocalDate getCreation_date(Long id) throws RestaurantNotFoundException {
+        Shops shopsId = shopsRepository.getReferenceById(id);
+        return shopsId.getCreation_date();
     }
 }

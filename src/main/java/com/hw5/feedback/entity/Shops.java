@@ -1,6 +1,7 @@
 package com.hw5.feedback.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity
@@ -23,6 +24,9 @@ public class Shops {
 
     @Column(name = "rating")
     private String rating;
+
+    @Column(name = "creation_date")
+    private LocalDate creation_date;
 
     public Shops() {
     }
@@ -65,6 +69,14 @@ public class Shops {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public LocalDate getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(LocalDate creation_date) {
+        this.creation_date = creation_date;
     }
 }
 
